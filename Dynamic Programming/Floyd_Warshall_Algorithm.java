@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Longest_Bitonic_Subsequence {
+public class Floyd_Warshall_Algorithm {
     public static void main(String args[]) throws Exception {
         PrintWriter p = new PrintWriter(System.out);
         Scanner in = new Scanner(System.in);
