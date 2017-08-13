@@ -1,38 +1,33 @@
 import java.util.*;
 import java.io.*;
 
-public class  Maximum_size_square_submatrix {
+public class  Maximum_Length_Chain_Pairs {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter p = new PrintWriter(System.out);
-        int n = in.nextInt(), m =in.nextInt();
-        int[][] ar = new int[n][m];
-        for(int i=0;i<n;i++)
-            for(int j=0;j<m;j++)
-                ar[i][j]=in.nextInt();
-        int[][] sub = new int[n][m];
-        for(int i=0;i<n;i++)
-            sub[i][0]=ar[i][0];
-        for(int i=0;i<m;i++)
-            sub[0][i]=ar[0][i];
-        for(int i=1;i<n;i++){
-            for(int j=1;j<m;j++){
-                if(ar[i][j]==1)
-                    sub[i][j]=Math.min(sub[i][j-1],Math.min(sub[i-1][j],sub[i-1][j-1]))+1;
+        int n = in.nextInt();
+        Pair[] pa = new Pair[n];
+        for(int i =0;i<n;i++){
+            pa[i]=new Pair(in.nextInt(),in.nextInt());
+        }
+        Arrays.sort(pa, new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return o1.a-o2.a;
+            }
+        });
+        int[] lis = new int[n];
+        Arrays.fill(lis,1);
+        for(int i =1;i<n;i++){
+            for(int j =0;j<i;j++){
+                if(pa[i].a>pa[j].b)
+                    lis[i]= Math.max(lis[j]+1,lis[i]);
             }
         }
-        int max = -1,mi=0,mj=0;
-        for(int i=0;i<n;i++) {
-            for (int j = 0; j < m; j++) {
-                if (max < sub[i][j]) {
-                    max = sub[i][j];
-                    mi = i;
-                    mj = j;
-                }
-            }
-        }
-        String from2 = Integer.toString(mi-max), from1 = Integer.toString(mj-max), to2=Integer.toString(mi),to1 =Integer.toString(mj);
-        p.println("from : ("+from1+", "+from2+") to "+"( "+to1+", "+to2+") ");
+        int max=-1;
+        for(int i:lis)
+        max=Math.max(max,i);
+        p.println(max);
         p.flush();
         p.close();
     }
@@ -187,5 +182,12 @@ public class  Maximum_size_square_submatrix {
         public interface SpaceCharFilter {
             public boolean isSpaceChar(int ch);
         }
+    }
+}
+class Pair{
+    int a,b;
+    Pair(int x, int y){
+        a=x;
+        b=y;
     }
 }
