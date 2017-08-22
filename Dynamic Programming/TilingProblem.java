@@ -1,22 +1,41 @@
 import java.util.*;
 import java.io.*;
 
-public class  Program_for_array_rotation {
+public class TilingProblem {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter p = new PrintWriter(System.out);
         int n = in.nextInt();
-        int d = in.nextInt();
-        int[] ar = new int[n];
-        for(int i =0;i<n;i++)
-            ar[i]=in.nextInt();
-        int[] temp = new int[n];
-        for(int i=0;i<n;i++)
-            temp[i]=ar[(i+d)%n];
-        for(int i:temp)
-            p.print(i+" ");
+        p.println(fibo(n));
         p.flush();
         p.close();
+    }
+    static int fibo(int n){
+        if(n==0)
+            return 0;
+        int[][] ar = new int[][]{{1,1},{1,0}};
+        power(ar,n-1);
+        return ar[0][0];
+    }
+    static void power(int[][] ar, int n){
+        if(n==0 || n==1)
+            return;
+        power(ar,n/2);
+        multiply(ar,ar);
+        int[][] m = {{1,1},{1,0}};
+        if(n%2!=0)
+            multiply(ar,m);
+    }
+
+    static void multiply(int[][] ar1, int[][] ar2) {
+        int p = ar1[0][0] * ar2[0][0] + ar1[0][1] * ar2[1][0];
+        int q = ar1[0][0] * ar2[0][1] + ar1[0][1] * ar2[1][1];
+        int r = ar1[1][0] * ar2[0][0] + ar1[1][1] * ar2[1][0];
+        int s = ar1[1][0] * ar2[0][1] + ar1[1][1] * ar2[1][1];
+        ar1[0][0] = p;
+        ar1[0][1] = q;
+        ar1[1][0] = r;
+        ar1[1][1] = s;
     }
 
     static class InputReader {
