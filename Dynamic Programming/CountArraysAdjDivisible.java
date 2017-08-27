@@ -12,6 +12,7 @@ public class CountArraysAdjDivisible {
             mul[i]=new LinkedList<Integer>();
             div[i]=new LinkedList<Integer>();
         }
+        
         for(int i =1;i<=m;i++){
             for(int j=2*i;j<=m;j+=i){
                 mul[i].push(j);
