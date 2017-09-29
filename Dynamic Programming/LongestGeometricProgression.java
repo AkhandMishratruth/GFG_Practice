@@ -5,31 +5,41 @@ public class LongestGeometricProgression {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter p = new PrintWriter(System.out);
-        int n = in.nextInt(),max=2;
+        int n = in.nextInt(), max = 1;
         int[] ar = new int[n];
-        for(int i=0;i<n;i++)
-            ar[i]=in.nextInt();
+        for (int i = 0; i < n; i++)
+            ar[i] = in.nextInt();
         Arrays.sort(ar);
         int[][] dp = new int[n][n];
-        for(int i=0;i<n;i++)
-            dp[i][n-1]=2;
-        for(int j=n-1;j>=1;j--){
-            int i=j-1,k=j+1;
-            while (i>=0 && k<n){
-                if(ar[i]*ar[k]<ar[j]*ar[j])
+        for (int i = 0; i < n-1; i++)
+            dp[i][n - 1] = ar[n - 1] % ar[i] == 0 ? 2 : 1;
+        for (int j = n - 2; j >= 1; j--) {
+            int i = j - 1, k = j + 1;
+            while (i >= 0 && k < n) {
+                if (ar[i] * ar[k] < ar[j] * ar[j])
                     k++;
-                else if(ar[i]*ar[k]>ar[j]*ar[j])
-                    dp[i--][j]=2;
-                else{
-                    dp[i][j]=dp[j][k]+1;
-                    max = Math.max(max,dp[i][j]);
-                    i--;k++;
+                else if (ar[i] * ar[k] > ar[j] * ar[j]) {
+                    dp[i][j] = ar[j] % ar[i] == 0 ? 2 : 1;
+                    //System.out.println(dp[i][j]);
+                    i--;
+                } else {
+                    dp[i][j] = dp[j][k] + 1;
+                    max = Math.max(max, dp[i][j]);
+                    i--;
+                    k++;
                 }
             }
-            while (i>=0)
-                dp[i--][j]=2;
+            while (i >= 0) {
+                //System.out.println(ar[j] % ar[i]+" "+i+" "+j);
+                dp[i][j] = ar[j] % ar[i] == 0 ? 2 : 1;
+                i--;
+            }
         }
-        /*for(int i=0;i<n;i++){
+        /*
+        for(int i=0;i<n;i++)
+            System.out.print(ar[i]+" ");
+        System.out.println();
+        for(int i=0;i<n;i++){
             for(int j=0;j<n;j++)
                 System.out.print(dp[i][j]+" ");
             System.out.println();

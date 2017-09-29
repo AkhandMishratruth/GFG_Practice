@@ -5,37 +5,44 @@ public class LongestArithmeticProgression {
     public static void main(String args[]) throws Exception {
         InputReader in = new InputReader(System.in);
         PrintWriter p = new PrintWriter(System.out);
-        int n = in.nextInt();
+        int n = in.nextInt(), max = 2;
         int[] ar = new int[n];
         for(int i=0;i<n;i++)
             ar[i]=in.nextInt();
-        Arrays.sort(ar);
-        int[][] dp = new int[n][n];
-        for(int i=0;i<n;i++)
-            dp[i][n-1]=2;
-        int max=2;
-        for(int j=n-2;j>=1;j--){
-            int i=j-1,k=j+1;
-            while (i>=0 && k<=n-1){
-                if(ar[i]+ar[k]>2*ar[j])
-                {dp[i][j]=2;i--;}
-                else if(ar[i]+ar[k]<2*ar[j])
-                    k++;
-                else {
-                    dp[i][j]=dp[j][k]+1;
-                    max=Math.max(max, dp[i][j]);
-                    i--;k++;
+        if(n==1) {
+            max = 1;
+        }
+        else{
+            Arrays.sort(ar);
+            int[][] dp = new int[n][n];
+            for (int i = 0; i < n; i++)
+                dp[i][n - 1] = 2;
+            for (int j = n - 2; j >= 1; j--) {
+                int i = j - 1, k = j + 1;
+                while (i >= 0 && k <= n - 1) {
+                    if (ar[i] + ar[k] > 2 * ar[j]) {
+                        dp[i][j] = 2;
+                        i--;
+                    } else if (ar[i] + ar[k] < 2 * ar[j])
+                        k++;
+                    else {
+                        dp[i][j] = dp[j][k] + 1;
+                        max = Math.max(max, dp[i][j]);
+                        i--;
+                        k++;
+                    }
+                }
+                while (i >= 0) {
+                    dp[i][j] = 2;
+                    i--;
                 }
             }
-            while (i>=0) {
-                dp[i][j] = 2;
-                i--;
-            }
-        }
+        /*
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++)
                 System.out.print(dp[i][j]+" ");
             System.out.println();
+        }*/
         }
         p.println(max);
         p.flush();
